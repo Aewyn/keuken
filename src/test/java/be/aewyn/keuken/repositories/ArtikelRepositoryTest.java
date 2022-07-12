@@ -1,10 +1,13 @@
 package be.aewyn.keuken.repositories;
 
+import be.aewyn.keuken.domain.Artikel;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+
+import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -12,10 +15,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Sql("/insertArtikel.sql")
 @Import(ArtikelRepository.class)
 class ArtikelRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests {
+    private static final String ARTIKELS = "artikels";
     private final ArtikelRepository repository;
+    private Artikel artikel;
 
     public ArtikelRepositoryTest(ArtikelRepository repository) {
         this.repository = repository;
+        this.artikel = new Artikel("testArt", BigDecimal.ONE, BigDecimal.TEN);
     }
 
     private long idVanTestArtikel(){
@@ -30,5 +36,12 @@ class ArtikelRepositoryTest extends AbstractTransactionalJUnit4SpringContextTest
     @Test
     void findByOnbestaandeId(){
         assertThat(repository.findById(-1)).isEmpty();
+    }
+
+    @Test
+    void create(){
+        repository.create(artikel);
+        assertThat(artikel.getId()).isPositive();
+        assertThat(countRowsInTableWhere(ARTIKELS,"id = " + artikel.getId())).isOne();
     }
 }
