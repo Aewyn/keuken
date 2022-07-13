@@ -4,6 +4,7 @@ import be.aewyn.keuken.domain.Artikel;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -20,5 +21,11 @@ public class ArtikelRepository {
 
     public void create(Artikel artikel){
         manager.persist(artikel);
+    }
+
+    public List<Artikel> findByWoord(String woord){
+        return manager.createNamedQuery("Artikel.findByWord", Artikel.class)
+                .setParameter("woord","%" + woord + "%")
+                .getResultList();
     }
 }

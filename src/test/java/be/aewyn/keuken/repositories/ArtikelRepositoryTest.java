@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ArtikelRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests {
     private static final String ARTIKELS = "artikels";
     private final ArtikelRepository repository;
-    private Artikel artikel;
+    private final Artikel artikel;
 
     public ArtikelRepositoryTest(ArtikelRepository repository) {
         this.repository = repository;
@@ -43,5 +43,12 @@ class ArtikelRepositoryTest extends AbstractTransactionalJUnit4SpringContextTest
         repository.create(artikel);
         assertThat(artikel.getId()).isPositive();
         assertThat(countRowsInTableWhere(ARTIKELS,"id = " + artikel.getId())).isOne();
+    }
+
+    @Test
+    void findByWoord(){
+        repository.create(artikel);
+        assertThat(repository.findByWoord("a")).hasSize(countRowsInTableWhere(ARTIKELS,"naam like '%a%'"));
+        assertThat(countRowsInTableWhere(ARTIKELS, "naam like '%testA%'")).isEqualTo(2);
     }
 }
