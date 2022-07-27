@@ -1,6 +1,7 @@
 package be.aewyn.keuken.services;
 
 import be.aewyn.keuken.domain.Artikel;
+import be.aewyn.keuken.domain.FoodArtikel;
 import be.aewyn.keuken.repositories.ArtikelRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,7 @@ class ArtikelServiceTest {
     @BeforeEach
     void beforeEach(){
         service = new ArtikelService(repository);
-        artikel = new Artikel("testA", BigDecimal.valueOf(2), BigDecimal.valueOf(3));
+        artikel = new FoodArtikel("testA", BigDecimal.valueOf(2), BigDecimal.valueOf(3), 7);
     }
 
     @Test

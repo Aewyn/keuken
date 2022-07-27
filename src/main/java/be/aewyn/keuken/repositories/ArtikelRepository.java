@@ -4,6 +4,7 @@ import be.aewyn.keuken.domain.Artikel;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,5 +28,11 @@ public class ArtikelRepository {
         return manager.createNamedQuery("Artikel.findByWord", Artikel.class)
                 .setParameter("woord","%" + woord + "%")
                 .getResultList();
+    }
+
+    public int algemenePrijsverhoging(BigDecimal percentage){
+        return manager.createNamedQuery("Artikel.algemenePrijsverhoging")
+                .setParameter("percentage", percentage)
+                .executeUpdate();
     }
 }

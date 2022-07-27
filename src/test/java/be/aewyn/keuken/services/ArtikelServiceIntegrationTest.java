@@ -27,7 +27,7 @@ class ArtikelServiceIntegrationTest extends AbstractTransactionalJUnit4SpringCon
     }
 
     private long idVanTestArtikel(){
-        return jdbcTemplate.queryForObject("select id from artikels where naam = 'testA'", Long.class);
+        return jdbcTemplate.queryForObject("select id from artikels where naam = 'testFoodA'", Long.class);
     }
 
     @Test
