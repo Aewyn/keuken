@@ -2,6 +2,7 @@ package be.aewyn.keuken.repositories;
 
 import be.aewyn.keuken.domain.Artikel;
 import be.aewyn.keuken.domain.FoodArtikel;
+import be.aewyn.keuken.domain.Korting;
 import be.aewyn.keuken.domain.NonFoodArtikel;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -68,5 +69,10 @@ class ArtikelRepositoryTest extends AbstractTransactionalJUnit4SpringContextTest
         assertThat(repository.algemenePrijsverhoging(BigDecimal.TEN)).isEqualTo(countRowsInTable(ARTIKELS));
         assertThat(countRowsInTableWhere(ARTIKELS,"verkoopprijs = 4.4 and id = " + idVanTestFoodArtikel())).isOne();
     }
-
+    @Test
+    void kortingenLezen(){
+        assertThat(repository.findById(idVanTestFoodArtikel()))
+                .hasValueSatisfying(artikel -> assertThat(artikel.getKortingen())
+                        .containsOnly(new Korting(1, BigDecimal.TEN)));
+    }
 }
